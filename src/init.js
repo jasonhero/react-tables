@@ -3,6 +3,9 @@ import { render } from 'react-dom';
 
 import './assets/css/style.css';
 
+// Load default inline styles
+import { mainStyle, rowStyle, headerStyle, theadStyle, fieldStyle } from './styles'
+
 
 let fillerData = [
   {person: 'bob', location: 'moon', hobby: 'music', age: 27},
@@ -17,6 +20,10 @@ let fillerData = [
   {person: 'bob', location: 'moon', hobby: 'music', age: 27},
   {person: 'bob', location: 'moon', hobby: 'music', age: 27}
 ];
+
+/*
+Dynamically generating table that morphs to fit any data structure or styling needs
+*/
 
 class Table extends Component {
   constructor(props) {
@@ -33,6 +40,7 @@ class Table extends Component {
     }
   }
   getChildContext() {
+    // May ditch context in the future and make stateless components as functions on this component
     return {
       headers: this.state.headers
     }
@@ -49,9 +57,9 @@ class Table extends Component {
   }
   render() {
     return (
-      <table>
+      <table style={mainStyle}>
         <Header headers={this.state.headers} />
-        <Body data={this.props.data}/>
+        <Body data={this.props.data} />
       </table>
     )
   }
@@ -64,11 +72,11 @@ Table.childContextTypes = {
 function Header({headers}) {
   let headerColumns = headers.map((header) => {
     return (
-      <th> {header} </th>
+      <th style={headerStyle}> {header} </th>
     )
   })
   return (
-    <thead>
+    <thead style={theadStyle}>
       <tr>
       {headerColumns}
       </tr>
@@ -92,11 +100,11 @@ function Body({data}) {
 function Row({rowData}, context) {
   let row = context.headers.map((header) => {
     return (
-      <td> {rowData[header]} </td>
+      <td style={fieldStyle}> {rowData[header]} </td>
     )
   })
   return (
-    <tr>
+    <tr style={rowStyle}>
       {row}
     </tr>
   )
