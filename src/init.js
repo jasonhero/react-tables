@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PropTypes,  Component } from 'react';
 import { render } from 'react-dom';
 
 import './assets/css/style.css';
@@ -21,15 +21,44 @@ let fillerData = [
 class Table extends Component {
   constructor(props) {
     super(props);
+    this.state = { headers: []}
+
+    if (props.data.length > 0) {
+      // Only set headers if theres data.
+      if (props.sortHeaders) {
+        this.state.headers = props.sortHeaders(Object.keys(props.data[0]))
+      } else {
+        this.state.headers = Object.keys(props.data[0])
+      }
+    }
+  }
+  getChildContext() {
+    return {
+      headers: this.state.headers
+    }
+  }
+  componentDidMount() {
+    //url data fectching in here for future
+  }
+  componentWillReceiveProps(nextProps) {
+    this.setState((state) => {
+      // Will not set state twice in this lifecycle
+      state.headers = Object.keys(nextProps.data[0]) || []
+      return state;
+    })
   }
   render() {
     return (
       <table>
-        <Header headers={Object.keys(this.props.data[0])} />
+        <Header headers={this.state.headers} />
         <Body data={this.props.data}/>
       </table>
     )
   }
+}
+
+Table.childContextTypes = {
+  headers: PropTypes.array
 }
 
 function Header({headers}) {
@@ -60,9 +89,8 @@ function Body({data}) {
   )
 }
 
-function Row({rowData}) {
-  let headers = Object.keys(rowData);
-  let row = headers.map((header) => {
+function Row({rowData}, context) {
+  let row = context.headers.map((header) => {
     return (
       <td> {rowData[header]} </td>
     )
@@ -74,12 +102,16 @@ function Row({rowData}) {
   )
 }
 
+Row.contextTypes = {
+  headers: PropTypes.array
+}
+
 function Footer() {
 
 }
 
 render((
-  <Table data={fillerData}/>
+  <Table data={fillerData} sortHeaders={(headers) => headers.sort()}/>
 ),
 document.getElementById('root')
 )
