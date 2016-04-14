@@ -1,0 +1,33 @@
+.test {
+  margin: 100px auto;
+  width: 700px;
+  background: rgb(250, 250, 250);
+  height: 300px;
+}
+
+.timeplot {
+  color: red;
+}
+
+.line {
+  width: 100%;
+  height: 20px;
+  background: rgb(43, 43, 43);
+  position: relative;
+  z-index: 10;
+}
+
+.fill {
+  background: rgba(113, 255, 83, 0.3);
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 0;
+}
+
+.clicker {
+  position: absolute;
+  z-index: 20;
+  height: 100%;
+  width: 100%;
+}
