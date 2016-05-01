@@ -3,22 +3,28 @@ import { render } from 'react-dom';
 
 import './assets/css/style.css';
 
+// Thing
+import TableHeader from './components/TableHeader'
+import TableBody from './components/TableBody'
+// import TableFooter from './components/TableFooter'
+
+
 // Load default inline styles
 import { mainStyle, rowStyle, headerStyle, theadStyle, fieldStyle } from './styles'
 
 
 let fillerData = [
-  {person: 'bob', location: 'moon', hobby: 'music', age: 27},
-  {person: 'bob', location: 'moon', hobby: 'music', age: 27},
-  {person: 'bob', location: 'moon', hobby: 'music', age: 27},
-  {person: 'bob', location: 'moon', hobby: 'music', age: 27},
-  {person: 'bob', location: 'moon', hobby: 'music', age: 27},
-  {person: 'bob', location: 'moon', hobby: 'music', age: 27},
-  {person: 'bob', location: 'moon', hobby: 'music', age: 27},
-  {person: 'bob', location: 'moon', hobby: 'music', age: 27},
-  {person: 'bob', location: 'moon', hobby: 'music', age: 27},
-  {person: 'bob', location: 'moon', hobby: 'music', age: 27},
-  {person: 'bob', location: 'moon', hobby: 'music', age: 27}
+  {person: 'bob', location: 'moon', hobby: 'woodcarving', age: 27},
+  {person: 'bob', location: 'moon', hobby: 'woodcarving', age: 27},
+  {person: 'bob', location: 'moon', hobby: 'woodcarving', age: 27},
+  {person: 'bob', location: 'moon', hobby: 'woodcarving', age: 27},
+  {person: 'bob', location: 'moon', hobby: 'woodcarving', age: 27},
+  {person: 'bob', location: 'moon', hobby: 'woodcarving', age: 27},
+  {person: 'bob', location: 'moon', hobby: 'woodcarving', age: 27},
+  {person: 'bob', location: 'moon', hobby: 'woodcarving', age: 27},
+  {person: 'bob', location: 'moon', hobby: 'woodcarving', age: 27},
+  {person: 'bob', location: 'moon', hobby: 'woodcarving', age: 27},
+  {person: 'bob', location: 'moon', hobby: 'woodcarving', age: 27}
 ];
 
 /*
@@ -39,84 +45,78 @@ class Table extends Component {
       }
     }
   }
-  getChildContext() {
-    // May ditch context in the future and make stateless components as functions on this component
-    return {
-      headers: this.state.headers
-    }
-  }
-  componentDidMount() {
-    //url data fectching in here for future
-  }
   componentWillReceiveProps(nextProps) {
     this.setState((state) => {
       // Will not set state twice in this lifecycle
       state.headers = Object.keys(nextProps.data[0]) || []
       return state;
-    })
+    });
+  }
+  renderTableBody() {
+    const handlers = {
+      onRowClick: this.onRowClick,
+      onRowHover: this.onRowHover,
+      onRowExit: this.onRowExit,
+      onCellClick: this.onCellClick,
+      onCellHover: this.onCellHover,
+      onCellExit: this.onCellExit,
+      cellContentModifier: this.cellContentModifier
+    }
+    if (this.props.data.length > 0) {
+      return (
+        <TableBody
+          {...handlers}
+          data={this.props.data}
+          headers={this.state.headers} />
+      )
+    }
+  }
+  renderTableHeader() {
+    if (this.state.headers.length > 0) {
+      return (
+        <TableHeader
+          headers={this.state.headers} />
+      )
+    }
+  }
+  renderTableFooter() {
+    return null;
+  }
+  onCellClick(columnNumber, rowNumber, event) {
+    if (this.props.onCellClick) this.props.onCellClick(columnNumber, rowNumber, event);
+  }
+  onCellHover(columnNumber, rowNumber, event) {
+    console.log('root test');
+    if (this.props.onCellHover) this.props.onCellHover(columnNumber, rowNumber, event);
+  }
+  onCellExit(columnNumber, rowNumber, event) {
+    if (this.props.onCellExit) this.props.onCellExit(columnNumber, rowNumber, event);
+  }
+  cellContentModifier(columnNumber, rowNumber, content) {
+    if (this.props.cellContentModifier) return this.props.cellContentModifier(content);
+    console.log('wtf');
+    return content;
+  }
+  onRowClick(columnNumber, rowNumber, event) {
+    if (this.props.onRowClick) this.props.onRowClick(columnNumber, rowNumber, event);
+  }
+  onRowHover(columnNumber, rowNumber, event) {
+    if (this.props.onRowHover) this.props.onRowHover(columnNumber, rowNumber, event);
+  }
+  onRowExit(columnNumber, rowNumber, event) {
+    if (this.props.onRowExit) this.props.onRowExit(columnNumber, rowNumber, event);
   }
   render() {
     return (
-      <table style={mainStyle}>
-        <Header headers={this.state.headers} />
-        <Body data={this.props.data} />
+      <table>
+        {this.renderTableHeader()}
+        {this.renderTableBody()}
+        {this.renderTableFooter()}
       </table>
     )
   }
 }
 
-Table.childContextTypes = {
-  headers: PropTypes.array
-}
-
-function Header({headers}) {
-  let headerColumns = headers.map((header) => {
-    return (
-      <th style={headerStyle}> {header} </th>
-    )
-  })
-  return (
-    <thead style={theadStyle}>
-      <tr>
-      {headerColumns}
-      </tr>
-    </thead>
-  )
-}
-
-function Body({data}) {
-  let rows = data.map((row) => {
-    return (
-      <Row rowData={row}/>
-    )
-  });
-  return (
-    <tbody>
-      {rows}
-    </tbody>
-  )
-}
-
-function Row({rowData}, context) {
-  let row = context.headers.map((header) => {
-    return (
-      <td style={fieldStyle}> {rowData[header]} </td>
-    )
-  })
-  return (
-    <tr style={rowStyle}>
-      {row}
-    </tr>
-  )
-}
-
-Row.contextTypes = {
-  headers: PropTypes.array
-}
-
-function Footer() {
-
-}
 
 render((
   <Table data={fillerData} sortHeaders={(headers) => headers.sort()}/>
