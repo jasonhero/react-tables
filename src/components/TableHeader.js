@@ -12,7 +12,7 @@ class TableHeader extends Component {
   }
   render() {
     return (
-      <thead>
+      <thead className='rtables-head'>
         <tr>
           {this.renderTableHeaders()}
         </tr>

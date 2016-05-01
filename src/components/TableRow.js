@@ -19,27 +19,28 @@ class TableRow extends Component {
       )
     });
   }
-  onCellClick(columnNumber) {
-    if (this.props.onCellClick) this.props.onCellClick(columnNumber, this.props.rowNumber, event)
+  onCellClick = (event, columnNumber) => {
+    if (this.props.onCellClick) this.props.onCellClick(event, this.props.rowNumber, columnNumber)
   }
-  onCellHover(columnNumber) {
-    console.log('Test TableRow');
-    if (this.props.onCellHover) this.props.onCellHover(columnNumber, this.props.rowNumber, event)
+  onCellHover = (event, columnNumber) => {
+    if (this.props.onCellHover) this.props.onCellHover(event, this.props.rowNumber, columnNumber)
   }
-  onCellExit(columnNumber) {
-    if (this.props.onCellExit) this.props.onCellExit(columnNumber, this.props.rowNumber, event)
+  onCellExit = (event, columnNumber) => {
+    if (this.props.onCellExit) this.props.onCellExit(event, this.props.rowNumber, columnNumber)
   }
-  cellContentModifier(columnNumber, content) {
-    if (this.props.cellContentModifier) this.props.cellContentModifier(columnNumber, this.props.rowNumber, content);
+  cellContentModifier = (content, columnNumber) => {
+    if (this.props.cellContentModifier) return this.props.cellContentModifier(content, this.props.rowNumber, columnNumber);
+    return content;
   }
-  onClick(event) {
-    if (this.props.onRowClick) this.props.onRowClick(this.props.rowNumber, event);
+  onClick = (event) => {
+    console.log('row clicked');
+    if (this.props.onRowClick) this.props.onRowClick(event, this.props.rowNumber);
   }
-  onMouseEnter(event) {
-    if (this.props.onRowHover) this.props.onRowHover(this.props.rowNumber, event);
+  onMouseEnter = (event) => {
+    if (this.props.onRowHover) this.props.onRowHover(event, this.props.rowNumber);
   }
-  onMouseLeave(event) {
-    if (this.props.onRowExit) this.props.onRowExit(this.props.rowNumber, event);
+  onMouseLeave = (event) => {
+    if (this.props.onRowExit) this.props.onRowExit(event, this.props.rowNumber);
   }
   render() {
     const handlers = {
@@ -49,6 +50,7 @@ class TableRow extends Component {
     }
     return (
       <tr
+        className='rtables-tr'
         {...handlers} >
         {this.renderTableRow()}
       </tr>

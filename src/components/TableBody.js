@@ -25,7 +25,7 @@ class TableBody extends Component {
   }
   render() {
     return (
-      <tbody>
+      <tbody className='rtables-body'>
         {this.renderTableRows()}
       </tbody>
     )

@@ -1,33 +1,41 @@
+.rtables-table {
+  border-spacing: 0px;
+  border-collapse: collapse;
+}
+
+.rtables-head {
+  background: rgb(117, 95, 224);
+}
+
+.rtables-th {
+  padding: 10px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+
 .test {
-  margin: 100px auto;
-  width: 700px;
-  background: rgb(250, 250, 250);
-  height: 300px;
+  color: rgb(143, 245, 81);
 }
 
-.timeplot {
-  color: red;
+.newtest {
+  color: rgb(194, 61, 124);
 }
 
-.line {
-  width: 100%;
-  height: 20px;
-  background: rgb(43, 43, 43);
-  position: relative;
-  z-index: 10;
+.rtables-tr {
+  background:rgb(233, 233, 233);
 }
 
-.fill {
-  background: rgba(113, 255, 83, 0.3);
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  z-index: 0;
+.rtables-tr:hover {
+  background: rgb(208, 239, 249);
 }
 
-.clicker {
-  position: absolute;
-  z-index: 20;
-  height: 100%;
-  width: 100%;
+.rtables-td {
+  border: 1px solid rgb(207, 207, 207);
+  padding: 10px;
+  text-align: center;
+}
+
+.rtables-td:hover {
+  background: rgb(103, 205, 215);
 }

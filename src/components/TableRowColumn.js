@@ -3,20 +3,19 @@ import React, { Component, PropTypes } from 'react';
 class TableRowColumn extends Component {
   constructor(props) {
     super(props)
-    console.log(props, 'TESTING');
   }
-  onClick(event) {
-    if (this.props.onCellClick) this.props.onCellClick(this.props.columnNumber, event);
+  onClick = (event) => {
+    if (this.props.onCellClick) this.props.onCellClick(event, this.props.columnNumber);
   }
-  onMouseEnter(event) {
-    if (this.props.onCellHover) this.props.onCellHover(this.props.columnNumber, event);
+  onMouseEnter = (event) => {
+    if (this.props.onCellHover) this.props.onCellHover(event, this.props.columnNumber);
   }
-  onMouseLeave(event) {
-    if (this.props.onCellExit) this.props.onCellExit(this.props.columnNumber, event);
+  onMouseLeave = (event) => {
+    if (this.props.onCellExit) this.props.onCellExit(event, this.props.columnNumber);
   }
-  contentModifier() {
-    if (this.props.cellContentModifier) this.props.cellContentModifier(this.props.columnNumber, this.props.cellData);
-    return 'Test'
+  contentModifier = () => {
+    if (this.props.cellContentModifier) return this.props.cellContentModifier(this.props.cellData, this.props.columnNumber);
+    return this.props.cellData;
   }
   render() {
     const handlers = {
@@ -25,9 +24,10 @@ class TableRowColumn extends Component {
       onMouseLeave: this.onMouseLeave
     }
     return (
-      <td
+      <td 
+        className='rtables-td'
         {...handlers} >
-        {'bleh'}
+        {this.contentModifier()}
       </td>
     )
   }

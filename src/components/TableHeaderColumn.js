@@ -4,7 +4,7 @@ import React, { Component, PropTypes } from 'react';
 class TableHeaderColumn extends Component {
   render() {
     return (
-      <th>
+      <th className='rtables-th'>
         {this.props.header}
       </th>
     )
